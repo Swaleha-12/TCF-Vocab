@@ -50,17 +50,65 @@
 
   // ---------- speech (optional) ----------
   const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
-  function speak(text) {
+  // Browsers load their voice list late, and otherwise fall back to the device's default
+  // (often English) voice, so wait for the list and always pick a French voice explicitly.
+  const voices = { fr: [], loaded: false };
+  const GOOD_VOICE = /(google|amélie|amelie|thomas|audrey|aurélie|marie|denise|henri|eloise|vivienne|remy|natural|online|enhanced|premium|neural)/i;
+  function rankVoice(v) {
+    const lang = v.lang.replace("_", "-").toLowerCase();
+    return (lang === "fr-fr" ? 0 : lang.startsWith("fr-ca") ? 1 : 2) * 10 + (GOOD_VOICE.test(v.name) ? 0 : 5) + (v.localService ? 0 : 1);
+  }
+  function refreshVoices() {
+    try {
+      const all = speechSynthesis.getVoices();
+      if (all.length) voices.loaded = true;
+      voices.fr = all.filter((v) => /^fr([-_]|$)/i.test(v.lang)).sort((a, b) => rankVoice(a) - rankVoice(b));
+    } catch (e) { /* ignore */ }
+  }
+  function waitForVoices() {
+    refreshVoices();
+    if (voices.loaded) return Promise.resolve();
+    return new Promise((res) => {
+      const done = () => { refreshVoices(); res(); };
+      try { speechSynthesis.addEventListener("voiceschanged", done, { once: true }); } catch (e) { /* ignore */ }
+      setTimeout(done, 1500);
+    });
+  }
+  function chosenVoice() {
+    const name = store.prefs.voice;
+    return voices.fr.find((v) => v.name === name) || voices.fr[0] || null;
+  }
+  async function speak(text) {
     if (!canSpeak) return;
+    await waitForVoices();
+    const v = chosenVoice();
+    if (!v) { toast(NO_VOICE_MSG); return; }
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "fr-FR";
-      const v = speechSynthesis.getVoices().find((x) => /^fr/i.test(x.lang));
-      if (v) u.voice = v;
+      u.voice = v;
+      u.lang = v.lang;
       u.rate = 0.95;
       speechSynthesis.speak(u);
     } catch (e) { /* ignore */ }
+  }
+  const NO_VOICE_MSG = "Aucune voix française n’est installée sur cet appareil, donc la lecture aurait un accent anglais. "
+    + "Ajoute une voix française : iPhone/iPad : Réglages › Accessibilité › Contenu énoncé › Voix › Français. "
+    + "Android : Paramètres › Synthèse vocale › Moteur Google › installer Français. "
+    + "Windows : Paramètres › Heure et langue › Voix › Ajouter des voix › Français. "
+    + "Mac : Réglages › Accessibilité › Contenu énoncé › Voix du système › Français. Puis recharge la page.";
+  let toastTimer = null;
+  function toast(msg) {
+    let el = document.getElementById("toast");
+    if (!el) { el = document.createElement("div"); el.id = "toast"; el.className = "toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+    el.innerHTML = `<p>${esc(msg)}</p><button class="btn ghost" data-act="toast-close" aria-label="Fermer">✕</button>`;
+    el.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.hidden = true; }, 15000);
+  }
+  if (canSpeak) {
+    refreshVoices();
+    try { speechSynthesis.addEventListener("voiceschanged", () => { refreshVoices(); if (ui.view === "cat" && ui.tab === "fiches") render(); }); } catch (e) { /* ignore */ }
   }
 
   // ---------- data ----------
@@ -210,6 +258,9 @@
         <div class="chips">${[["fr", "Français → anglais"], ["en", "Anglais → français"]].map(([k, l]) => `<button class="chip" aria-pressed="${ui.fcOpts.dir === k}" data-act="fc-opt" data-k="dir" data-v="${k}">${l}</button>`).join("")}</div>
         <label>Type de mot</label>
         <div class="chips">${types.map((t) => `<button class="chip" aria-pressed="${ui.fcOpts.type === t}" data-act="fc-opt" data-k="type" data-v="${t}">${t === "all" ? "Tous" : TYPE_PLURAL[t]}</button>`).join("")}</div>
+        ${canSpeak && voices.fr.length > 1 ? `<label for="voice-select">Voix française</label>
+        <select id="voice-select" class="select">${voices.fr.map((v) => `<option value="${esc(v.name)}" ${chosenVoice() === v ? "selected" : ""}>${esc(v.name)} (${esc(v.lang)})</option>`).join("")}</select>` : ""}
+        ${canSpeak && voices.loaded && !voices.fr.length ? `<p class="notice">Aucune voix française sur cet appareil : la lecture audio est désactivée. <button class="btn ghost small" data-act="voice-help">Comment en ajouter une</button></p>` : ""}
         <label>Ordre</label>
         <div class="chips">${[["smart", "Révision intelligente (20 fiches)"], ["random", "Au hasard"], ["list", "Ordre de la liste"]].map(([k, l]) => `<button class="chip" aria-pressed="${ui.fcOpts.order === k}" data-act="fc-opt" data-k="order" data-v="${k}">${l}</button>`).join("")}</div>
       </details>`;
@@ -512,6 +563,9 @@
     const n = document.getElementById(id);
     if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch (e) { /* ignore */ } }
   }
+  app.addEventListener("change", (e) => {
+    if (e.target.id === "voice-select") { store.prefs.voice = e.target.value; save(); speak("Bonjour, je lis en français."); }
+  });
   app.addEventListener("toggle", (e) => { if (e.target.id === "fc-settings") ui.fcOpen = e.target.open; }, true);
 
   document.addEventListener("click", (e) => {
@@ -563,6 +617,8 @@
       case "t-dur": ui.pr.duration = ui.pr.remaining = +t.dataset.v; store.prefs.timer = ui.pr.duration; save(); break;
       case "rec-start": startRec(); return;
       case "rec-stop": stopRec(); return;
+      case "toast-close": { const el = document.getElementById("toast"); if (el) el.hidden = true; return; }
+      case "voice-help": toast(NO_VOICE_MSG); return;
       case "word": ui.sheet = t.dataset.id; renderSheet(); return;
       case "sheet-close": ui.sheet = null; renderSheet(); return;
       case "sheet-again": store.boxes[t.dataset.id] = { b: 1, t: Date.now() }; save(); renderSheet(); return;
