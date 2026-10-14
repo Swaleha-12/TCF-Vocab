@@ -1,0 +1,517 @@
+# TYPE|french|gender (nouns only)|english|optional match regex
+# TYPE: N noun, V verb, A adjective, ADV adverb, EXP expression
+
+@culture
+N|coutume|f|custom
+N|tradition|f|tradition
+N|immersion|f|immersion
+N|intégration|f|integration
+N|adaptation|f|adaptation
+N|identité|f|identity
+N|origine|f|origin
+N|expatrié|m|expatriate
+N|habitant|m|inhabitant, local resident
+N|malentendu|m|misunderstanding
+N|diversité|f|diversity
+N|richesse|f|richness, wealth
+N|enrichissement|m|enrichment
+N|horizon|m|horizon
+N|découverte|f|discovery
+N|croyance|f|belief
+N|mentalité|f|mindset, mentality
+N|racine|f|root
+N|norme|f|norm
+N|célébrité|f|celebrity, fame
+N|fascination|f|fascination
+N|séjour|m|stay
+N|curiosité|f|curiosity
+N|accueil|m|welcome, reception
+N|obstacle|m|obstacle
+N|stéréotype|m|stereotype
+N|préjugé|m|prejudice
+N|résilience|f|resilience
+N|valeur|f|value
+N|patrimoine|m|heritage
+V|s’immerger||to immerse oneself|re:immerg
+V|s’intégrer||to integrate, fit in|re:intégr(er|e|ent|ons|ez|é|ant)
+V|s’adapter||to adapt|re:adapt(er|e|ent|é|ant)\b
+V|s’habituer à||to get used to|re:habitu(er|e|ent|é)
+V|élargir||to broaden, widen
+V|enrichir||to enrich
+V|tisser||to weave (bonds)
+V|nouer||to form, strike up (ties)
+V|préserver||to preserve
+V|célébrer||to celebrate
+V|refléter||to reflect
+V|surmonter||to overcome
+V|se confronter à||to be confronted with|re:confront
+V|se débrouiller||to manage, get by|re:débrouill
+V|s’évader||to escape, get away|re:évad
+V|s’installer||to settle|re:install
+V|maîtriser||to master
+V|briser||to break (down)
+V|conserver||to keep, retain
+V|transmettre||to pass on, transmit
+A|culturel||cultural
+A|enrichissant||enriching
+A|linguistique||linguistic
+A|interculturel||intercultural
+A|authentique||authentic
+A|mutuel||mutual
+A|traditionnel||traditional
+A|isolé||isolated
+A|inconnu||unknown
+A|familier||familiar
+A|superficiel||superficial
+A|vestimentaire||relating to clothing
+A|artistique||artistic
+A|universel||universal
+A|inattendu||unexpected
+ADV|pleinement||fully
+ADV|profondément||deeply
+ADV|activement||actively
+ADV|différemment||differently
+EXP|sortir de sa zone de confort||to step out of one’s comfort zone|re:zone de confort
+EXP|élargir ses horizons||to broaden one’s horizons|re:élargir (ses|son|nos|leurs) horizons?
+EXP|tisser des liens||to build relationships, form bonds|re:tiss\w* des liens
+EXP|la barrière linguistique||the language barrier|re:barrières? (linguistiques?|de la langue)
+EXP|le choc culturel||culture shock|re:chocs? culturels?
+EXP|l’ouverture d’esprit||open-mindedness|re:ouverture d’esprit
+EXP|la culture d’origine||culture of origin|re:culture d’origine
+EXP|le mode de vie||way of life, lifestyle|re:modes? de vie
+EXP|le sentiment d’appartenance||sense of belonging|re:sentiment d’appartenance
+
+@economie
+N|secteur|m|sector
+N|emploi|m|job, employment
+N|entreprise|f|company, business
+N|revenu|m|income
+N|carrière|f|career
+N|opportunité|f|opportunity
+N|salaire|m|salary
+N|chômage|m|unemployment
+N|croissance|f|growth
+N|travailleur|m|worker
+N|infrastructure|f|infrastructure
+N|métier|m|trade, profession
+N|rémunération|f|pay, remuneration
+N|reconnaissance|f|recognition
+N|employé|m|employee
+N|aspiration|f|aspiration
+N|retraite|f|retirement
+N|productivité|f|productivity
+N|prospérité|f|prosperity
+N|mutation|f|transformation, shift
+N|hébergement|m|accommodation
+N|valorisation|f|enhancement, recognition of value
+N|expertise|f|expertise
+N|promotion|f|promotion
+N|épanouissement|m|fulfilment
+N|tourisme|m|tourism
+N|pauvreté|f|poverty
+N|inégalité|f|inequality
+N|parcours|m|path, career path
+N|sacrifice|m|sacrifice
+N|entrepreneur|m|entrepreneur
+V|attirer||to attract
+V|générer||to generate
+V|investir||to invest
+V|stimuler||to stimulate, boost
+V|garantir||to guarantee
+V|dynamiser||to energize, revitalize
+V|valoriser||to value, enhance
+V|subvenir à||to provide for (needs)|re:subvenir
+V|exercer||to practise (a profession)
+V|rémunérer||to pay, remunerate
+V|diversifier||to diversify
+V|relever||to take up (a challenge)
+V|progresser||to progress
+V|aspirer à||to aspire to|re:aspir(er|e|ent|ant)
+V|lutter contre||to fight against|re:lutter
+V|s’expatrier||to move abroad|re:expatri(er|e|ent)
+V|franchir||to cross, overcome
+V|accomplir||to accomplish|re:accompli(r|ssent|t|ssant)\b
+V|bénéficier de||to benefit from|re:bénéfici(er|e|ent|ant)
+V|acquérir||to acquire|re:\b(acquérir|acquiert|acquièrent)\b
+A|économique||economic
+A|professionnel||professional
+A|financier||financial
+A|touristique||touristic
+A|exigeant||demanding
+A|compétitif||competitive
+A|équitable||fair, equitable
+A|prospère||prosperous
+A|épanouissant||fulfilling
+A|acharné||relentless, hard (work)
+A|performant||high-performing, efficient
+A|migratoire||migratory
+A|stratégique||strategic
+A|élevé||high
+ADV|efficacement||efficiently
+ADV|aisément||easily
+ADV|indépendamment||independently, regardless
+EXP|le marché du travail||the job market|re:marché du travail
+EXP|la main-d’œuvre||workforce, labour|re:main-d’œuvre
+EXP|la qualité de vie||quality of life|re:qualité de vie
+EXP|le niveau de vie||standard of living|re:niveau de vie
+EXP|la création d’emplois||job creation|re:(création d’emplois|créer des emplois)
+EXP|la formation continue||continuing education|re:formation continue
+EXP|l’équilibre vie professionnelle / vie personnelle||work-life balance|re:équilibre entre (la )?vie (professionnelle|personnelle)
+EXP|relever des défis||to take on challenges|re:relever (des|les|de nouveaux|ces) défis
+EXP|le patrimoine culturel||cultural heritage|re:patrimoine culturel
+EXP|le savoir-faire||know-how|re:savoir-faire
+
+@technologie
+N|plateforme|f|platform
+N|application|f|app, application
+N|messagerie|f|messaging (service)
+N|outil|m|tool
+N|réseau|m|network
+N|donnée|f|data (piece of)
+N|utilisateur|m|user
+N|avènement|m|advent
+N|appareil|m|device
+N|accès|m|access
+N|dépendance|f|dependence, addiction
+N|surveillance|f|surveillance, monitoring
+N|visioconférence|f|video conference
+N|contenu|m|content
+N|connectivité|f|connectivity
+N|rapidité|f|speed
+N|fiabilité|f|reliability
+N|automatisation|f|automation
+N|désinformation|f|disinformation|re:désinformation
+N|télétravail|m|remote work|re:télétravail
+N|distraction|f|distraction
+N|écran|m|screen
+N|discernement|m|discernment, judgment
+N|instantanéité|f|immediacy
+N|flexibilité|f|flexibility
+N|courriel|m|email
+N|démocratisation|f|democratization, wider access
+N|interaction|f|interaction
+N|ère|f|era
+V|révolutionner||to revolutionize
+V|connecter||to connect|re:(se |nous |de |à )connecter
+V|consulter||to consult, check
+V|accéder à||to access|re:accéd
+V|simplifier||to simplify
+V|faciliter||to facilitate, make easier
+V|automatiser||to automate
+V|optimiser||to optimize
+V|rapprocher||to bring closer
+V|interagir||to interact
+V|divertir||to entertain
+V|isoler||to isolate
+V|exploiter||to make use of, exploit
+V|nuire à||to harm|re:nui(re|t|sent|sant)
+V|remodeler||to reshape
+V|s’informer||to keep informed|re:s’inform
+V|effectuer||to carry out
+V|gérer||to manage
+V|remplacer||to replace
+V|communiquer||to communicate
+A|instantané||instant
+A|virtuel||virtual
+A|numérique||digital
+A|électronique||electronic
+A|technologique||technological
+A|chronophage||time-consuming
+A|incontournable||unavoidable, essential
+A|accessible||accessible
+A|fiable||reliable
+A|excessif||excessive
+A|indéniable||undeniable
+A|connecté||connected|re:connecté
+A|inégalé||unmatched
+A|éclairé||informed, enlightened
+A|mondial||worldwide, global
+ADV|désormais||from now on, nowadays
+ADV|instantanément||instantly
+ADV|radicalement||radically
+ADV|considérablement||considerably
+ADV|constamment||constantly
+ADV|géographiquement||geographically
+EXP|à distance||remotely, at a distance|re:à distance
+EXP|en temps réel||in real time|re:en temps réel
+EXP|en ligne||online|re:en ligne
+EXP|l’ère numérique||the digital age|re:ère numérique
+EXP|la vie privée||privacy, private life|re:vie privée
+EXP|à portée de main||within reach, at your fingertips|re:à portée de main
+EXP|les réseaux sociaux||social media|re:réseaux sociaux
+EXP|les fausses informations||fake news|re:fausses? informations?
+
+@sante
+N|santé|f|health
+N|alimentation|f|diet, nutrition
+N|anxiété|f|anxiety
+N|maladie|f|illness, disease
+N|trouble|m|disorder
+N|régime|m|diet (plan)
+N|nutriment|m|nutrient
+N|dépression|f|depression
+N|risque|m|risk
+N|soin|m|care, treatment
+N|poids|m|weight
+N|sédentarité|f|sedentary lifestyle
+N|obésité|f|obesity
+N|carence|f|deficiency
+N|bienfait|m|benefit
+N|métabolisme|m|metabolism
+N|sommeil|m|sleep
+N|vieillissement|m|ageing
+N|symptôme|m|symptom
+N|fatigue|f|tiredness
+N|apparence|f|appearance
+N|obsession|f|obsession
+N|chirurgie|f|surgery
+N|traitement|m|treatment
+N|médicament|m|medicine, drug
+N|isolement|m|isolation
+N|répercussion|f|repercussion
+N|concentration|f|concentration
+N|pesticide|m|pesticide
+N|pollution|f|pollution
+V|réduire||to reduce
+V|consommer||to consume
+V|entraîner||to lead to, cause
+V|adopter||to adopt
+V|promouvoir||to promote
+V|prévenir||to prevent
+V|souffrir de||to suffer from|re:souffr
+V|provoquer||to cause
+V|maintenir||to maintain
+V|prolonger||to prolong, extend|re:\bprolong(er|e|ent)\b
+V|exacerber||to exacerbate
+V|affecter||to affect
+V|déclencher||to trigger
+V|accroître||to increase
+V|diminuer||to decrease
+V|inciter||to encourage, prompt
+V|encadrer||to regulate, supervise
+V|recourir à||to resort to|re:recour
+V|privilégier||to favour, prioritize
+V|soulager||to relieve|re:soulag
+A|physique||physical
+A|mental||mental
+A|sain||healthy
+A|équilibré||balanced
+A|néfaste||harmful
+A|cardiovasculaire||cardiovascular
+A|chronique||chronic
+A|nutritionnel||nutritional
+A|psychologique||psychological
+A|bénéfique||beneficial
+A|irréaliste||unrealistic
+A|esthétique||cosmetic, aesthetic
+A|immunitaire||immune
+A|émotionnel||emotional
+A|sédentaire||sedentary|re:sédentaire
+ADV|potentiellement||potentially
+ADV|généralement||generally
+ADV|notamment||notably, in particular
+ADV|régulièrement||regularly|re:régulièrement
+EXP|une alimentation saine||a healthy diet|re:alimentation (saine|équilibrée)
+EXP|l’activité physique||physical activity|re:activités? physiques?
+EXP|le bien-être||well-being|re:bien-être
+EXP|la santé mentale||mental health|re:santé mentale
+EXP|à long terme||in the long term|re:à long terme
+EXP|prendre soin de soi||to take care of oneself|re:prendre soin d
+EXP|l’estime de soi||self-esteem|re:estime de soi
+EXP|les produits bio||organic products|re:produits bio
+EXP|un mode de vie sain||a healthy lifestyle|re:mode de vie (sain|équilibré)
+
+@famille
+N|soutien|m|support
+N|parent|m|parent
+N|membre|m|member
+N|lien|m|bond, link
+N|relation|f|relationship
+N|responsabilité|f|responsibility
+N|stabilité|f|stability
+N|sécurité|f|security, safety
+N|parentalité|f|parenthood
+N|souvenir|m|memory
+N|complicité|f|closeness, bond
+N|foyer|m|home, household
+N|implication|f|involvement
+N|amitié|f|friendship
+N|solidarité|f|solidarity
+N|réconfort|m|comfort
+N|entraide|f|mutual help
+N|affection|f|affection
+N|transmission|f|passing on
+N|autonomie|f|autonomy
+N|confiance|f|trust
+N|pilier|m|pillar
+N|appartenance|f|belonging
+N|célibat|m|single life
+N|indépendance|f|independence
+N|cyberharcèlement|m|cyberbullying
+N|épreuve|f|ordeal, hardship
+N|conflit|m|conflict
+N|proche|m|loved one, close relative
+N|adolescent|m|teenager
+V|partager||to share
+V|apporter||to bring, provide
+V|engendrer||to generate, give rise to
+V|grandir||to grow up
+V|élever||to raise (children)
+V|transmettre||to pass on
+V|perpétuer||to perpetuate
+V|compter sur||to count on|re:compter sur
+V|guider||to guide
+V|protéger||to protect
+V|alléger||to lighten, ease
+V|traverser||to go through
+V|réconforter||to comfort
+V|négliger||to neglect
+V|entretenir||to maintain (a relationship)
+V|consacrer||to devote
+V|entraver||to hinder
+V|assumer||to take on (responsibility)
+V|s’éloigner||to drift apart, move away|re:(s’|se |nous )éloign
+V|s’épanouir||to flourish, thrive|re:(s’|se |nous )épanoui(r|ssent|t|ssant)\b
+A|familial||family (adj.)
+A|affectif||emotional, affective
+A|inconditionnel||unconditional
+A|légitime||legitimate
+A|précieux||precious
+A|irremplaçable||irreplaceable
+A|réconfortant||comforting
+A|inestimable||invaluable
+A|parental||parental
+A|intergénérationnel||intergenerational
+A|célibataire||single (not married)
+A|solide||solid, strong
+A|strict||strict
+A|autoritaire||authoritarian|re:autoritaire
+A|amical||friendly
+A|inapproprié||inappropriate
+ADV|attentivement||attentively
+ADV|facilement||easily
+ADV|mutuellement||mutually|re:mutuellement
+EXP|les liens familiaux||family ties|re:liens familiaux
+EXP|le soutien moral||moral support|re:soutien moral
+EXP|le sentiment d’appartenance||sense of belonging|re:sentiment d’appartenance
+EXP|compter sur quelqu’un||to rely on someone|re:compter sur
+EXP|au sein de la famille||within the family|re:au sein de (la|leur|sa|notre) famille
+EXP|passer du temps ensemble||to spend time together|re:passer (du|plus de) temps
+EXP|le temps d’écran||screen time|re:temps d’écran
+EXP|la vie privée||privacy, private life|re:vie privée
+
+@education
+N|élève|m|pupil, student
+N|apprentissage|m|learning
+N|compétence|f|skill
+N|réussite|f|success
+N|connaissance|f|knowledge
+N|programme|m|curriculum, programme
+N|matière|f|school subject
+N|enseignement|m|teaching
+N|employeur|m|employer
+N|formation|f|training
+N|discipline|f|discipline
+N|aptitude|f|aptitude
+N|stage|m|internship
+N|diplôme|m|degree, diploma
+N|atout|m|asset
+N|créativité|f|creativity
+N|enseignant|m|teacher
+N|apprenant|m|learner
+N|acquisition|f|acquisition
+N|imagination|f|imagination
+N|tolérance|f|tolerance
+N|camarade|m|classmate
+N|échelon|m|rung, level
+N|bourse|f|scholarship|re:bourses?
+N|bienveillance|f|kindness|re:bienveillance
+N|enjeu|m|stake, issue
+N|cerveau|m|brain
+N|vocabulaire|m|vocabulary
+N|méthode|f|method
+N|avenir|m|future
+V|apprendre||to learn
+V|réussir||to succeed
+V|développer||to develop
+V|acquérir||to acquire
+V|former||to train
+V|enseigner||to teach
+V|affronter||to face, confront
+V|étudier||to study
+V|instruire||to educate, instruct
+V|maîtriser||to master
+V|persévérer||to persevere
+V|stimuler||to stimulate|re:\bstimul(er|e|ent)\b
+V|instaurer||to establish
+V|analyser||to analyse
+V|poursuivre||to pursue
+V|se spécialiser||to specialize|re:(s’|se |nous )spécialis
+V|résoudre||to solve
+V|éveiller||to awaken, spark
+V|motiver||to motivate
+V|saisir||to seize (an opportunity)
+A|éducatif||educational
+A|scolaire||school (adj.)
+A|interactif||interactive
+A|pédagogique||teaching, educational
+A|académique||academic
+A|fondamental||fundamental
+A|pertinent||relevant
+A|intellectuel||intellectual
+A|concret||concrete
+A|autonome||autonomous, independent
+A|théorique||theoretical
+A|transversal||transferable (skills)
+A|cognitif||cognitive
+A|ludique||fun, playful
+A|compétent||competent
+A|universitaire||university (adj.)
+ADV|professionnellement||professionally
+ADV|directement||directly
+ADV|rapidement||quickly
+EXP|l’esprit critique||critical thinking|re:esprit critique
+EXP|la résolution de problèmes||problem solving|re:résolution de problèmes
+EXP|ouvrir des portes||to open doors|re:ouvr\w* (des|de nombreuses|de nouvelles) portes
+EXP|les études supérieures||higher education|re:études supérieures
+EXP|la confiance en soi||self-confidence|re:confiance en soi
+EXP|tout au long de la vie||throughout life|re:tout au long de la vie
+EXP|mettre en pratique||to put into practice|re:mettre en pratique
+EXP|le marché du travail||the job market|re:marché du travail
+EXP|le travail d’équipe||teamwork|re:travail d’équipe
+
+@argumentation
+EXP|Tout d’abord||First of all|re:^tout d’abord
+EXP|Ensuite||Next|re:^ensuite
+EXP|De plus||Moreover|re:^de plus,
+EXP|En outre||Furthermore|re:^en outre
+EXP|Par ailleurs||Besides, moreover|re:^par ailleurs
+EXP|De surcroît||What is more|re:de surcroît
+EXP|Enfin||Finally|re:^enfin,
+EXP|En effet||Indeed|re:^en effet
+EXP|Par conséquent||Consequently|re:^par conséquent
+EXP|C’est pourquoi||That is why|re:c’est pourquoi
+EXP|Ainsi||Thus|re:^ainsi,
+EXP|Autrement dit||In other words|re:autrement dit
+EXP|Cependant||However|re:^cependant
+EXP|Toutefois||Nevertheless|re:^toutefois
+EXP|Néanmoins||Nonetheless|re:néanmoins
+EXP|En revanche||On the other hand|re:en revanche
+EXP|Au contraire||On the contrary|re:au contraire
+EXP|Bien que (+ subjonctif)||Although|re:^bien qu
+EXP|Même si||Even if|re:^même si
+EXP|D’une part… d’autre part||On the one hand… on the other hand|re:d’une part
+EXP|Non seulement… mais aussi||Not only… but also|re:non seulement .{5,80}mais (aussi|également)
+EXP|Il est vrai que||It is true that|re:il est vrai que
+EXP|Il est indéniable que||It is undeniable that|re:il est indéniable que
+EXP|Il convient de||It is advisable to, one should|re:il convient de
+EXP|À mon avis||In my opinion|re:^à mon avis
+EXP|Selon moi||In my view|re:^selon moi
+EXP|Pour ma part||For my part|re:^pour ma part
+EXP|À mon sens||To my mind|re:à mon sens
+EXP|Je suis convaincu(e) que||I am convinced that|re:je suis convaincu
+EXP|Je ne partage pas cet avis||I do not share this view|re:je ne partage pas
+EXP|Par exemple||For example|re:^par exemple
+EXP|En conclusion||In conclusion|re:^en conclusion
+EXP|Pour conclure||To conclude|re:^pour conclure
+EXP|En somme||All in all|re:^en somme
