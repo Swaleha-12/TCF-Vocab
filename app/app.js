@@ -53,10 +53,17 @@
   // Browsers load their voice list late, and otherwise fall back to the device's default
   // (often English) voice, so wait for the list and always pick a French voice explicitly.
   const voices = { fr: [], loaded: false };
-  const GOOD_VOICE = /(google|amélie|amelie|thomas|audrey|aurélie|marie|denise|henri|eloise|vivienne|remy|natural|online|enhanced|premium|neural)/i;
+  // Voices installed on the device come first: online voices (e.g. "Google français") can
+  // silently fall back to the default English voice on longer text, and "Multilingual"
+  // voices guess the language themselves.
+  const GOOD_VOICE = /(amélie|amelie|thomas|audrey|aurélie|marie|denise|henri|hortense|julie|paul|enhanced|premium)/i;
+  const normLang = (l) => String(l || "").replace("_", "-");
   function rankVoice(v) {
-    const lang = v.lang.replace("_", "-").toLowerCase();
-    return (lang === "fr-fr" ? 0 : lang.startsWith("fr-ca") ? 1 : 2) * 10 + (GOOD_VOICE.test(v.name) ? 0 : 5) + (v.localService ? 0 : 1);
+    const lang = normLang(v.lang).toLowerCase();
+    return (/multilingual/i.test(v.name) ? 1000 : 0)
+      + (v.localService === false ? 100 : 0)
+      + (lang === "fr-fr" ? 0 : lang.startsWith("fr-ca") ? 10 : 20)
+      + (GOOD_VOICE.test(v.name) ? 0 : 5);
   }
   function refreshVoices() {
     try {
@@ -85,12 +92,26 @@
     if (!v) { toast(NO_VOICE_MSG); return; }
     try {
       speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.voice = v;
-      u.lang = v.lang;
-      u.rate = 0.95;
-      speechSynthesis.speak(u);
+      // Chrome can drop the chosen voice when speak() follows cancel() immediately.
+      await new Promise((r) => setTimeout(r, 60));
+      // Read long sentences in short pieces, each explicitly set to the French voice.
+      chunkText(text).forEach((part) => {
+        const u = new SpeechSynthesisUtterance(part);
+        u.voice = v;
+        u.lang = normLang(v.lang) || "fr-FR";
+        u.rate = 0.95;
+        speechSynthesis.speak(u);
+      });
     } catch (e) { /* ignore */ }
+  }
+  function chunkText(text, max = 120) {
+    const parts = [];
+    String(text).split(/(?<=[,;:.!?])\s+/).forEach((piece) => {
+      const last = parts[parts.length - 1];
+      if (last && (last + " " + piece).length <= max) parts[parts.length - 1] = last + " " + piece;
+      else parts.push(piece);
+    });
+    return parts.filter((p) => p.trim());
   }
   const NO_VOICE_MSG = "Aucune voix française n’est installée sur cet appareil, donc la lecture aurait un accent anglais. "
     + "Ajoute une voix française : iPhone/iPad : Réglages › Accessibilité › Contenu énoncé › Voix › Français. "
@@ -258,8 +279,8 @@
         <div class="chips">${[["fr", "Français → anglais"], ["en", "Anglais → français"]].map(([k, l]) => `<button class="chip" aria-pressed="${ui.fcOpts.dir === k}" data-act="fc-opt" data-k="dir" data-v="${k}">${l}</button>`).join("")}</div>
         <label>Type de mot</label>
         <div class="chips">${types.map((t) => `<button class="chip" aria-pressed="${ui.fcOpts.type === t}" data-act="fc-opt" data-k="type" data-v="${t}">${t === "all" ? "Tous" : TYPE_PLURAL[t]}</button>`).join("")}</div>
-        ${canSpeak && voices.fr.length > 1 ? `<label for="voice-select">Voix française</label>
-        <select id="voice-select" class="select">${voices.fr.map((v) => `<option value="${esc(v.name)}" ${chosenVoice() === v ? "selected" : ""}>${esc(v.name)} (${esc(v.lang)})</option>`).join("")}</select>` : ""}
+        ${canSpeak && voices.fr.length ? `<label for="voice-select">Voix française</label>
+        <select id="voice-select" class="select">${voices.fr.map((v) => `<option value="${esc(v.name)}" ${chosenVoice() === v ? "selected" : ""}>${esc(v.name)} (${esc(normLang(v.lang))}${v.localService === false ? ", en ligne" : ""})</option>`).join("")}</select>` : ""}
         ${canSpeak && voices.loaded && !voices.fr.length ? `<p class="notice">Aucune voix française sur cet appareil : la lecture audio est désactivée. <button class="btn ghost small" data-act="voice-help">Comment en ajouter une</button></p>` : ""}
         <label>Ordre</label>
         <div class="chips">${[["smart", "Révision intelligente (20 fiches)"], ["random", "Au hasard"], ["list", "Ordre de la liste"]].map(([k, l]) => `<button class="chip" aria-pressed="${ui.fcOpts.order === k}" data-act="fc-opt" data-k="order" data-v="${k}">${l}</button>`).join("")}</div>
