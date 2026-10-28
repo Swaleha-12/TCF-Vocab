@@ -2,12 +2,17 @@
 
 Groups repeated questions, links each flashcard example to its response, and marks
 where every vocabulary entry appears inside the sample responses so the app can
-highlight it.
+highlight it. Each response also gets "s": the same answer rewritten into the structured
+template (tools/structured_template.py, slots in tools/structured/*.json), marked the same way.
 
 usage: python build_app_data.py <work_dir with parsed/> <vocab.json> <out_dir>
 """
-import json, os, re, sys, unicodedata
+import glob, json, os, re, sys, unicodedata
 import spacy
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from structured_template import assemble  # noqa: E402
 
 work, vocab_path, out_dir = sys.argv[1:4]
 CATS = ["culture", "economie", "technologie", "sante", "famille", "education"]
@@ -17,6 +22,10 @@ SEP = "’-"
 nlp = spacy.load("fr_core_news_md", disable=["ner"])
 vocab = json.load(open(vocab_path, encoding="utf-8"))
 by_cat = {c["slug"]: c for c in vocab["categories"]}
+fills = {}
+for f in sorted(glob.glob(os.path.join(HERE, "structured", "batch-*.json"))):
+    fills.update(json.load(open(f, encoding="utf-8")))
+dups = json.load(open(os.path.join(HERE, "structured_duplicates.json"), encoding="utf-8"))
 
 
 def qkey(q):
@@ -95,8 +104,14 @@ for c in CATS:
         paras = []
         for text, doc in zip(it["response"], nlp.pipe(it["response"])):
             paras.append({"t": text, "m": mark_paragraph(doc, text, lemma_map, rx_list)})
+        resp = {"src": it["id"], "p": paras}
+        slots = fills.get(it["id"]) or fills.get(dups.get(it["id"], ""))
+        if slots:
+            resp["s"] = assemble(slots)
+            for sec, doc in zip(resp["s"], nlp.pipe(sec["t"] for sec in resp["s"])):
+                sec["m"] = mark_paragraph(doc, sec["t"], lemma_map, rx_list)
         source_map[it["id"]] = (g["id"], len(g["responses"]))
-        g["responses"].append({"src": it["id"], "p": paras})
+        g["responses"].append(resp)
 
     questions = [groups[k] for k in order]
     json.dump({"slug": c, "questions": questions},

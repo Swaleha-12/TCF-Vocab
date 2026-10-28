@@ -410,11 +410,17 @@
     const hints = pr.showHints ? `<div class="hints">${pr.hints.topic.map((w) => `<span>${esc(wordTitle(w))} <em>· ${esc(w.en)}</em></span>`).join("")}${pr.hints.conns.map((w) => `<span><b>${esc(w.fr)}</b></span>`).join("")}</div>` : "";
     const rec = recHtml();
     const multi = q.responses.length > 1 ? `<div class="chips">${q.responses.map((_, i) => `<button class="chip" aria-pressed="${pr.ri === i}" data-act="pr-ri" data-v="${i}">Réponse ${i + 1}</button>`).join("")}</div>` : "";
+    const r = q.responses[pr.ri];
+    const struct = respView() === "struct" && r.s;
+    const viewChips = r.s ? `<div class="chips">${[["struct", "Version structurée"], ["orig", "Version originale"]].map(([v, l]) => `<button class="chip" aria-pressed="${respView() === v}" data-act="pr-view" data-v="${v}">${l}</button>`).join("")}</div>` : "";
     const resp = pr.showResp ? `
       <div class="stagebox">
         <div class="row spread"><h3>Réponse modèle</h3>${multi}</div>
-        <div class="legend"><span><mark>mot du thème</mark></span><span><span class="c">connecteur</span></span><span>Touche un mot pour voir sa traduction.</span></div>
-        <div class="response">${q.responses[pr.ri].p.map(paraHtml).join("")}</div>
+        ${viewChips}
+        <div class="legend">${struct ? `<span><span class="fill">idées propres au sujet</span></span><span class="tpl">phrases du modèle</span>` : ""}<span><mark>mot du thème</mark></span><span><span class="c">connecteur</span></span><span>Touche un mot pour voir sa traduction.</span></div>
+        <div class="response${struct ? " struct" : ""}">${struct
+          ? r.s.map((sec) => `<section><h4>${esc(sec.h)}</h4>${richHtml(sec.t, sec.m, sec.f)}</section>`).join("")
+          : r.p.map(paraHtml).join("")}</div>
       </div>` : "";
     const practised = !!store.practised[q.id];
     return `<div class="deck">
@@ -436,17 +442,33 @@
     </div>`;
   }
 
-  function paraHtml(p) {
+  function respView() { return store.prefs.respView || "struct"; }
+
+  function paraHtml(p) { return richHtml(p.t, p.m, []); }
+
+  // text with vocabulary marks; fills are the parts of a structured answer that come from the topic
+  function richHtml(t, marks, fills) {
+    const inFill = (i) => fills.some(([a, b]) => i >= a && i < b);
+    const plain = (a, b) => {
+      let out = "";
+      for (let i = a; i < b;) {
+        const f = inFill(i);
+        let j = i + 1;
+        while (j < b && inFill(j) === f) j++;
+        out += f ? `<span class="fill">${esc(t.slice(i, j))}</span>` : esc(t.slice(i, j));
+        i = j;
+      }
+      return out;
+    };
     let out = "", last = 0;
-    p.m.forEach(([a, b, vid]) => {
-      out += esc(p.t.slice(last, a));
-      const piece = esc(p.t.slice(a, b));
+    marks.forEach(([a, b, vid]) => {
+      out += plain(last, a);
       out += vid.startsWith("argumentation")
-        ? `<span class="c" data-act="word" data-id="${vid}" role="button" tabindex="0">${piece}</span>`
-        : `<mark data-act="word" data-id="${vid}" role="button" tabindex="0">${piece}</mark>`;
+        ? `<span class="c" data-act="word" data-id="${vid}" role="button" tabindex="0">${plain(a, b)}</span>`
+        : `<mark data-act="word" data-id="${vid}" role="button" tabindex="0">${plain(a, b)}</mark>`;
       last = b;
     });
-    return `<p>${out}${esc(p.t.slice(last))}</p>`;
+    return `<p>${out}${plain(last, t.length)}</p>`;
   }
 
   // timer
@@ -629,6 +651,7 @@
       case "pr-hints": ui.pr.showHints = !ui.pr.showHints; break;
       case "pr-show": ui.pr.showResp = true; break;
       case "pr-ri": ui.pr.ri = +t.dataset.v; break;
+      case "pr-view": store.prefs.respView = t.dataset.v; save(); break;
       case "pr-done":
         if (store.practised[ui.pr.qid]) delete store.practised[ui.pr.qid]; else store.practised[ui.pr.qid] = Date.now();
         save(); break;

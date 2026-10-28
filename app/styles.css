@@ -171,6 +171,11 @@ button { cursor: pointer; }
 .response p { max-width: 68ch; }
 .response mark { background: var(--hl); color: var(--hl-ink); border-radius: 2px; padding: 0 1px; cursor: pointer; }
 .response .c { color: var(--conn); font-weight: 700; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.response.struct { gap: 18px; }
+.response.struct section { display: flex; flex-direction: column; gap: 4px; }
+.response.struct h4 { margin: 0; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--conn); }
+.response.struct p, .legend .tpl { color: var(--muted); }
+.response .fill, .legend .fill { color: var(--ink); font-weight: 700; }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .85rem; color: var(--muted); }
 .legend mark { background: var(--hl); color: var(--hl-ink); padding: 0 4px; border-radius: 2px; }
 .legend .c { color: var(--conn); font-weight: 700; text-decoration: underline; }
